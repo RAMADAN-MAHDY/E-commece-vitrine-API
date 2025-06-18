@@ -2,7 +2,7 @@ import express from 'express';
 import User from '../../schema/createuser.js';
 import bcrypt from 'bcryptjs';
 
-const createUser = () => {
+const createUser = () => { 
     const app = express();
     app.use(express.json());
 

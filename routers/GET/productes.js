@@ -1,10 +1,10 @@
 import express from 'express';
 import Mix from '../../schema/categorysOfProdcuct/all.js';
 import Cosmetic from '../../schema/categorysOfProdcuct/Cosmetics.js';
-import Ratans from '../../schema/categorysOfProdcuct/ratan.js';
+// import Ratans from '../../schema/categorysOfProdcuct/ratan.js';
 import Households from '../../schema/categorysOfProdcuct/Household.js';
 import Clothess from '../../schema/categorysOfProdcuct/clothes.js';
-import SparePartss from '../../schema/categorysOfProdcuct/spareParts.js';
+// import SparePartss from '../../schema/categorysOfProdcuct/spareParts.js';
 const GetProdects = () => {
     const app = express();
     app.use(express.json());
@@ -16,21 +16,21 @@ const GetProdects = () => {
             let products;
 
             switch (category) {
-                case "1": // Cosmetic
+                case "1": //Furniture
                     products = await Cosmetic.find();
                     break;
-                case "2": // Clothess
+                case "2": // Lighting
                     products = await Clothess.find();
                     break;
-                case "3": // Households
+                case "3": // Decor
                     products = await Households.find();
                     break;
-                case "4": // Ratans
-                    products = await Ratans.find();
-                    break;
-                case "5": // SparePartss
-                    products = await SparePartss.find();
-                    break;
+                // case "4": // Ratans
+                //     products = await Ratans.find();
+                //     break;
+                // case "5": // SparePartss
+                //     products = await SparePartss.find();
+                //     break;
                 default:
                     products = await Mix.find();
                     break;
