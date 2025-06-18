@@ -41,7 +41,7 @@ const port = 5000;
 //http://localhost:3000
 //https://elmahdy.vercel.app
 const corsOptions = {
-    origin: ['https://elmahdy.vercel.app', 'http://localhost:5173'],
+    origin: '*',
     optionsSuccessStatus: 200
 }
 
