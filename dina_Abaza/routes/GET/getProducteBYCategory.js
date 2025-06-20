@@ -1,6 +1,6 @@
 import express from 'express';
 import productsModel from '../../shema/Productes.js';
-
+import CategoryModel from '../../shema/Category.js';
 const router = express.Router();
 
 // Route to get products by category ID
