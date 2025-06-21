@@ -7,7 +7,7 @@ import compression from 'compression';
 
 // -----------------POST----------------//
 // import PostConditions from './routers/POST/condition.js';
-// import createUser from './routers/POST/createuser.js';
+import createUser from './dina_Abaza/routes/POST/createuser.js';
 import Login from './dina_Abaza/routes/POST/login.js';
 // import Commition from './routers/POST/commition.js';
 // import SearchByClientName from './routers/POST/SearchByClientName.js';
@@ -74,7 +74,7 @@ connectDB();
 app.use('/api', Login());
 
 //create an account 
-// app.use("/api", createUser());
+app.use("/api", createUser());
 
 //post conditon to conditions array
 
