@@ -63,7 +63,7 @@ const Login = () => {
     });
  
     // Middleware للتحقق من صحة التوكن
-    app.post('/verify-login', middleware, (req, res) => {
+    app.get('/verify-login', middleware, (req, res) => {
 
         
     res.json({ message: 'تم تسجيل الدخول بنجاح.' });
