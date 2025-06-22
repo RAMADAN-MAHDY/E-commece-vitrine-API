@@ -23,7 +23,7 @@ function generateAccessToken(payload) {
 const Login = () => {
     const app = express();
     app.use(express.json());
-    app.use(cookieParser());
+   // app.use(cookieParser());
 
     app.post('/login', async (req, res) => {
         try {
@@ -48,12 +48,12 @@ const Login = () => {
             const accessToken = generateAccessToken(payload);
 
             // خزّن الـ accessToken في كوكي
-            res.cookie('accessToken', accessToken, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'none',
-                maxAge: 7 * 24 * 60 * 60 * 1000 // أسبوع بالمللي ثانية
-            });
+     //       res.cookie('accessToken', accessToken, {
+      //          httpOnly: true,
+        //        secure: process.env.NODE_ENV === 'production',
+         //       sameSite: 'none',
+        //        maxAge: 7 * 24 * 60 * 60 * 1000 // أسبوع بالمللي ثانية
+       //     });
 
             return res.status(200).json({ message: 'تم تسجيل الدخول بنجاح.' , accessToken });
         } catch (err) {
