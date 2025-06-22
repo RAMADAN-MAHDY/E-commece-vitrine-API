@@ -3,7 +3,7 @@ import User from '../../../dina_Abaza/shema/createuser.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
+// import cookieParser from 'cookie-parser';
 import middleware from '../../middleware/authMiddleware.js'
 
 Dotenv.config();
@@ -33,7 +33,7 @@ const Login = () => {
                 return res.status(400).json({ message: 'يرجى إدخال البريد الإلكتروني وكلمة المرور.' });
             }
 
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email }).select('+password');
             if (!user) {
                 return res.status(401).json({ message: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.' });
             }
@@ -54,8 +54,8 @@ const Login = () => {
          //       sameSite: 'none',
         //        maxAge: 7 * 24 * 60 * 60 * 1000 // أسبوع بالمللي ثانية
        //     });
-
-            return res.status(200).json({ message: 'تم تسجيل الدخول بنجاح.' , accessToken });
+            const { password: _, ...userData } = user.toObject(); // استبعاد كلمة المرور من البيانات المرسلة
+            return res.status(200).json({ message: 'تم تسجيل الدخول بنجاح.' , accessToken , user: userData });
         } catch (err) {
             console.error('خطأ في تسجيل الدخول:', err);
             return res.status(500).json({ message: 'حدث خطأ أثناء تسجيل الدخول.' });
