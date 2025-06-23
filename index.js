@@ -7,6 +7,7 @@ import compression from 'compression';
 
 // -----------------POST----------------//
 // import PostConditions from './routers/POST/condition.js';
+
 import createUser from './dina_Abaza/routes/POST/createuser.js';
 import Login from './dina_Abaza/routes/POST/login.js';
 // import Commition from './routers/POST/commition.js';
@@ -32,6 +33,7 @@ import Login from './dina_Abaza/routes/POST/login.js';
 // import imagesSlider from './routers/GET/getImageCarsolar.js';
 // import getCart from './routers/GET/cart.js';
 // import GetProdects from './dina_Abaza/routes/GET/';
+import GEToffers from './dina_Abaza/routes/GET/offers.js';
 import getCategory from './dina_Abaza/routes/GET/getcategory.js'
 import GetProdectByCategory from './dina_Abaza/routes/GET/getProducteBYCategory.js'
 
@@ -119,6 +121,7 @@ app.use("/api", createUser());
 // -----------------GET------------------------------//
 app.use('/api', getCategory);
 app.use('/api', GetProdectByCategory);
+app.use('/api', GEToffers);
 // get datails condition
 // app.use('/api', DetailsCondition());
 // app.use('/api', Lengthoforder());
