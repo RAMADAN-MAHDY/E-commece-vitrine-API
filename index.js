@@ -1,6 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import connectDB from './db.js';
+import paymentRoutes from './dina_Abaza/payment/routes.js';
+import StripeRoutes from './dina_Abaza/stripe-checkout/stripe.js';
+import webhookRoute from './dina_Abaza/stripe-checkout/stripeWebhook.js';
 // import Socketio from './socket_io/socket_io.js';
 import compression from 'compression';
 // import {seedDatabase} from './dina_Abaza/routes/POST/addProduct.js'
@@ -12,7 +15,7 @@ import createUser from './dina_Abaza/routes/POST/createuser.js';
 import Login from './dina_Abaza/routes/POST/login.js';
 // import Commition from './routers/POST/commition.js';
 // import SearchByClientName from './routers/POST/SearchByClientName.js';
-// import PostProducts from './routers/POST/postProduct.js';
+import PostProducts from './dina_Abaza/routes/POST/addProducte.js';
 // import PostImage from './routers/POST/imageSlider.js';
 // import postCart from './routers/POST/cart.js';
 // -----------------DELETE-----------//
@@ -55,6 +58,9 @@ app.use((req, res, next) => {
     next();
 });
 
+// الـ Webhook لازم ييجي قبل الـ express.json() عشان يبقى raw
+app.use('/', webhookRoute);
+
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true, parameterLimit: 50000 }));
@@ -69,6 +75,11 @@ app.use(compression({
     }
 }));
 connectDB();
+
+// -----------------ROUTES------------------//
+
+app.use(paymentRoutes);// Payment routes
+app.use('/api/stripe' ,StripeRoutes);// Payment routes
 
 // Socketio();
 // ---------------------POST--------------------------//
@@ -89,7 +100,7 @@ app.use("/api", createUser());
 // app.use('/api', SearchByClientName());
 
 //  post products
-// app.use('/api', PostProducts());
+app.use('/api', PostProducts);
 
 // post cart
 // app.use('/api', postCart());

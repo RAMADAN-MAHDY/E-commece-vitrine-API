@@ -12,6 +12,7 @@ const productSchema = new Schema(
       discountedPrice: { type: Number, default: 0 }
     },
     image: { type: String, required: true },
+    imageDeleteUrl: { type: String, default: '' },
     categoryId: { type: Types.ObjectId, required: true, ref: 'Category' }
   },
   {
