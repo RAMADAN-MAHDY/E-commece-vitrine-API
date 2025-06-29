@@ -61,8 +61,20 @@ router.post('/addproduct', upload.single('image'), async (req, res) => {
         discountedPrice: finalDiscountedPrice
       }
     });
+    
+res.status(201).json({
+  msg: 'تم إضافة المنتج بنجاح',
+  product: {
+    _id: newProduct._id,
+    name: newProduct.name,
+    price: newProduct.price,
+    image: newProduct.image,
+    categoryId: newProduct.categoryId,
+    offer: newProduct.offer
+  }
+});
 
-    res.status(201).json(newProduct);
+
 
   } catch (err) {
     console.error(err);
