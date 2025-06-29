@@ -39,6 +39,7 @@ import PostProducts from './dina_Abaza/routes/POST/addProducte.js';
 import GEToffers from './dina_Abaza/routes/GET/offers.js';
 import getCategory from './dina_Abaza/routes/GET/getcategory.js'
 import GetProdectByCategory from './dina_Abaza/routes/GET/getProducteBYCategory.js'
+import cashOnDeliveryRouter from './dina_Abaza/stripe-checkout/cash-on-delivery.js';
 
 const app = express();
 
@@ -80,6 +81,7 @@ connectDB();
 
 app.use(paymentRoutes);// Payment routes
 app.use('/api/stripe' ,StripeRoutes);// Payment routes
+app.use('/api', cashOnDeliveryRouter);// Payment routes
 
 // Socketio();
 // ---------------------POST--------------------------//

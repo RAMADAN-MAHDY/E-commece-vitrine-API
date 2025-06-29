@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import dotenv from 'dotenv';
 import Product from '../shema/Productes.js';
 import OrderModel from '../shema/Orders.js'
+import authMiddleware from '../middleware/authMiddleware.js';
 
 dotenv.config();
 
@@ -10,9 +11,10 @@ const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // POST /api/stripe/create-checkout-session
-router.post('/create-checkout-session', async (req, res) => {
+router.post('/create-checkout-session', authMiddleware, async (req, res) => {
   try {
-const { cartItems, userId } = req.body;
+    const { cartItems } = req.body;
+    const userId = req.user.id;
 
     let totalAmount = 0;
     const orderProducts = [];
@@ -93,16 +95,5 @@ router.get('/session/:sessionId', async (req, res) => {
     res.status(500).json({ error: 'فشل في جلب بيانات الجلسة' });
   }
 });
-
-
-
-
-
-
-
-
-
-
-
 
 export default router;
