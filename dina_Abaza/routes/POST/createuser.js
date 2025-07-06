@@ -24,7 +24,7 @@ const createUser = () => {
     app.post('/register', async (req, res) => {
         try {
 
-            const { email, password  , name } = req.body;
+            const { email, password  , name , rols} = req.body;
 
             if (!email || !password || !name) {
                 return res.status(400).json({ message: "جميع الحقول مطلوبة." });
@@ -40,8 +40,8 @@ const createUser = () => {
             const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-           const user = await User.create({ email, password: hashedPassword , name });
-
+           const user = await User.create({ email, password: hashedPassword , name , rols });
+ 
             if (!user) {
                 return res.status(500).json({ message: "حدث خطأ أثناء إنشاء الحساب." });
             }

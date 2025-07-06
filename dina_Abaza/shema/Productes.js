@@ -19,6 +19,7 @@ const productSchema = new Schema(
     timestamps: true 
   }
 );
+productSchema.index({ name: "text", description: "text" });
 
 const Product = model('Product', productSchema);
 export default Product;
