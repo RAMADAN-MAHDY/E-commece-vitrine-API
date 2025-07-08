@@ -294,7 +294,81 @@ console.log(data);
   ...
 }
 ```
-        
+     
+
+
+          
+تم شرح وتوثيق روتر تعديل المنتج في ملف README.md للفرونت اند. إليك القسم الجديد الذي يمكنك إضافته لتوضيح كيفية إرسال طلب التعديل:
+
+---
+
+## ✏️ تعديل منتج (محمي)
+
+`PATCH api/editproduct/:id`
+
+**Headers:**
+```
+Authorization: Bearer <access_token>
+Content-Type: multipart/form-data
+```
+
+**Body (form-data):**
+| الحقل              | النوع   | الحالة    | الوصف                                 |
+|--------------------|---------|-----------|---------------------------------------|
+| `name`             | نص      | اختياري   | اسم المنتج الجديد                     |
+| `price`            | رقم     | اختياري   | السعر الجديد                          |
+| `discountedPrice`  | رقم     | اختياري   | السعر بعد الخصم                       |
+| `categoryId`       | نص      | اختياري   | معرف التصنيف الجديد                   |
+| `image`            | ملف     | اختياري   | صورة جديدة للمنتج (File)              |
+
+**ملاحظات:**
+- يمكنك إرسال أي حقل تريد تعديله فقط، وليس من الضروري إرسال جميع الحقول.
+- إذا أرسلت صورة جديدة، سيتم استبدال صورة المنتج القديمة.
+- إذا أرسلت discountedPrice أقل من السعر، سيتم تفعيل الخصم تلقائيًا.
+
+**Response:**
+```json
+{
+  "msg": "تم تعديل المنتج بنجاح",
+  "product": {
+    "_id": "...",
+    "name": "...",
+    "price": ...,
+    "image": "رابط الصورة",
+    "categoryId": "...",
+    "offer": {
+      "isActive": true,
+      "discountPercent": 10,
+      "discountedPrice": 90
+    }
+  }
+}
+```
+
+**مثال عملي (Fetch):**
+```js
+const formData = new FormData();
+formData.append('name', 'اسم جديد');
+formData.append('price', 120);
+formData.append('discountedPrice', 100);
+formData.append('categoryId', 'معرف_تصنيف_جديد');
+formData.append('image', fileInput.files[0]); // صورة جديدة
+
+const res = await fetch('/api/editproduct/معرف_المنتج', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer <access_token>'
+    // لا تضع Content-Type مع FormData
+  },
+  body: formData
+});
+const data = await res.json();
+console.log(data);
+```
+
+---
+
+
 ---
 
 لأي استفسار عن أي Endpoint أو إضافة توثيق لمسارات أخرى، تواصل مع فريق الباكند.

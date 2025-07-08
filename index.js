@@ -4,6 +4,7 @@ import connectDB from './db.js';
 import paymentRoutes from './dina_Abaza/payment/routes.js';
 import StripeRoutes from './dina_Abaza/stripe-checkout/stripe.js';
 import webhookRoute from './dina_Abaza/stripe-checkout/stripeWebhook.js';
+import patchProduct from './dina_Abaza/routes/PUT/editProduct.js';
 // import Socketio from './socket_io/socket_io.js';
 import compression from 'compression';
 // import {seedDatabase} from './dina_Abaza/routes/POST/addProduct.js'
@@ -91,59 +92,15 @@ app.use('/api', Login());
 //create an account 
 app.use("/api", createUser());
 
-//post conditon to conditions array
-
-// app.use("/api", PostConditions());
-
-// post commition 
-// app.use('/api', Commition());
-
-// searchByClientName 
-// app.use('/api', SearchByClientName());
-
-//  post products
 app.use('/api', PostProducts);
-
-// post cart
-// app.use('/api', postCart());
-
-// add image slider 
-// app.use('/api', PostImage());
-
-// ----------------------------------------------------
-// ------------------DELETE---------------------------//
-// delete order by id and code 
-// app.use('/api', DeleteOrder());
-// delete product
-// app.use('/api', DeleteProducts());
-
-// ----------------------------------------------------
-// ------------------PUT------------------------------//
-// put commitionreq data 
-// app.use('/api', PUTcommitionreq());
-
-// amendment products 
-// app.use('/api', PutProducts());
-
-// change state 
-// app.use('/api', ChangeState());
-
-//change condition By admin
-// app.use('/api', ChangeCnodition());
-// ---------------------------------------------------
 // -----------------GET------------------------------//
 app.use('/api', getCategory);
 app.use('/api', GetProdectByCategory);
 app.use('/api', GEToffers);
-// get datails condition
-// app.use('/api', DetailsCondition());
-// app.use('/api', Lengthoforder());
-// app.use('/api', Commitionschmas());
-// app.use('/api', Users());
-// app.use('/api', GetProdects());
-// app.use('/api', imagesSlider());
-// app.use('/api', getCart());
-// ----------------------------------------------------
+
+// ------------------patch ------------------
+app.use('/api', patchProduct);
+
 // seedDatabase()
 
 app.get('/', (req, res) => {
