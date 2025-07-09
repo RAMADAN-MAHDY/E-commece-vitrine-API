@@ -5,6 +5,7 @@ import paymentRoutes from './dina_Abaza/payment/routes.js';
 import StripeRoutes from './dina_Abaza/stripe-checkout/stripe.js';
 import webhookRoute from './dina_Abaza/stripe-checkout/stripeWebhook.js';
 import patchProduct from './dina_Abaza/routes/PUT/editProduct.js';
+import deleteProduct from './dina_Abaza/routes/DELETE/deleteProduct.js';
 // import Socketio from './socket_io/socket_io.js';
 import compression from 'compression';
 // import {seedDatabase} from './dina_Abaza/routes/POST/addProduct.js'
@@ -100,6 +101,9 @@ app.use('/api', GEToffers);
 
 // ------------------patch ------------------
 app.use('/api', patchProduct);
+
+// ------------------delete ------------------
+app.use('/api', deleteProduct);
 
 // seedDatabase()
 
