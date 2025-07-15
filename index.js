@@ -8,6 +8,7 @@ import patchProduct from './dina_Abaza/routes/PUT/editProduct.js';
 import deleteProduct from './dina_Abaza/routes/DELETE/deleteProduct.js';
 // import Socketio from './socket_io/socket_io.js';
 import compression from 'compression';
+import sendmessage from './dina_Abaza/routes/POST/messages.js';
 // import {seedDatabase} from './dina_Abaza/routes/POST/addProduct.js'
 
 // -----------------POST----------------//
@@ -89,6 +90,7 @@ app.use('/api', cashOnDeliveryRouter);// Payment routes
 // ---------------------POST--------------------------//
 //login 
 app.use('/api', Login());
+app.use('/api', sendmessage);
 
 //create an account 
 app.use("/api", createUser());
