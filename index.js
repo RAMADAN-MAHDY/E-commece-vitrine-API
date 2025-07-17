@@ -6,6 +6,9 @@ import StripeRoutes from './dina_Abaza/stripe-checkout/stripe.js';
 import webhookRoute from './dina_Abaza/stripe-checkout/stripeWebhook.js';
 import patchProduct from './dina_Abaza/routes/PUT/editProduct.js';
 import deleteProduct from './dina_Abaza/routes/DELETE/deleteProduct.js';
+import getUsers from "./dina_Abaza/routes/GET/getUsers.js"
+import getMessage from './dina_Abaza/routes/GET/Getmessages.js'
+
 // import Socketio from './socket_io/socket_io.js';
 import compression from 'compression';
 import sendmessage from './dina_Abaza/routes/POST/messages.js';
@@ -100,6 +103,8 @@ app.use('/api', PostProducts);
 app.use('/api', getCategory);
 app.use('/api', GetProdectByCategory);
 app.use('/api', GEToffers);
+app.use('/api', getUsers);
+app.use('/api', getMessage);
 
 // ------------------patch ------------------
 app.use('/api', patchProduct);
