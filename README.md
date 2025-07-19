@@ -669,7 +669,7 @@ console.log(data);
 
 ### مثال عملي (Fetch) لجلب كل رسائل "اتصل بنا":
 ```js
-const res = await fetch('/api/getAllMessages', {
+const res = await fetch('/api/getContactMessage', {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',

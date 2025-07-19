@@ -6,7 +6,7 @@ import ContactMessage from '../../shema/contactUs.js';
 const router = express.Router();
 
 // 📨 جلب كل الرسائل للأدمن
-router.get('/getAllMessages', async (req, res) => {
+router.get('/getContactMessage', async (req, res) => {
   try {
     const messages = await ContactMessage.find()
       .populate('userId', 'name email') // لو فيه مستخدم، هنعرض اسمه وإيميله
