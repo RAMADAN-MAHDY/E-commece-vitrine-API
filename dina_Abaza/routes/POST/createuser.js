@@ -51,7 +51,7 @@ const createUser = () => {
             // const payload = { id: user._id, email: user.email, name: user.name };
             // إذا كنت تريد تضمين الاسم في التوكن
               const {password : _, ...userData } =  user.toObject(); // استبعاد كلمة المرور من البيانات المرسلة
-              const payload = { id: user._id, email: user.email };
+              const payload = { id: user._id, name: user.name, email: user.email };
 
             const accessToken = generateAccessToken(payload);
 

@@ -8,6 +8,8 @@ import patchProduct from './dina_Abaza/routes/PUT/editProduct.js';
 import deleteProduct from './dina_Abaza/routes/DELETE/deleteProduct.js';
 import getUsers from "./dina_Abaza/routes/GET/getUsers.js"
 import getMessage from './dina_Abaza/routes/GET/Getmessages.js'
+import postCuntactUs from './dina_Abaza/routes/POST/Postcontact.js'
+import getAllMessages from './dina_Abaza/routes/GET/getcontact.js'
 
 // import Socketio from './socket_io/socket_io.js';
 import compression from 'compression';
@@ -94,6 +96,7 @@ app.use('/api', cashOnDeliveryRouter);// Payment routes
 //login 
 app.use('/api', Login());
 app.use('/api', sendmessage);
+app.use('/api', postCuntactUs);
 
 //create an account 
 app.use("/api", createUser());
@@ -105,6 +108,7 @@ app.use('/api', GetProdectByCategory);
 app.use('/api', GEToffers);
 app.use('/api', getUsers);
 app.use('/api', getMessage);
+app.use('/api', getAllMessages);
 
 // ------------------patch ------------------
 app.use('/api', patchProduct);

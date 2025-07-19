@@ -22,4 +22,23 @@ function authMiddleware(req, res, next) {
   });
 }
 
-export default authMiddleware;
+
+// ✅ نسخة اختيارية: لو فيه توكن ناخده، لو مفيش نكمل عادي
+function optionalAuthMiddleware(req, res, next) {
+  const token = req.headers['authorization']?.split(' ')[1];
+
+  if (!token) {
+    req.user = null;
+    return next();
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    req.user = err ? null : decoded;
+    next();
+  });
+}
+
+
+
+
+export { authMiddleware as default, optionalAuthMiddleware };
