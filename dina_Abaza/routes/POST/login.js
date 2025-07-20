@@ -43,7 +43,7 @@ const Login = () => {
                 return res.status(401).json({ message: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.' });
             }
 
-            const payload = { id: user._id, email: user.email };
+            const payload = { id: user._id, name : user.name , email: user.email };
 
             const accessToken = generateAccessToken(payload);
 

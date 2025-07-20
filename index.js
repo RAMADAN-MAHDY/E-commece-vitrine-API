@@ -10,7 +10,7 @@ import getUsers from "./dina_Abaza/routes/GET/getUsers.js"
 import getMessage from './dina_Abaza/routes/GET/Getmessages.js'
 import postCuntactUs from './dina_Abaza/routes/POST/Postcontact.js'
 import getAllMessages from './dina_Abaza/routes/GET/getcontact.js'
-
+import adminOrders from './dina_Abaza/routes/GET/adminOrders.js'
 // import Socketio from './socket_io/socket_io.js';
 import compression from 'compression';
 import sendmessage from './dina_Abaza/routes/POST/messages.js';
@@ -109,6 +109,7 @@ app.use('/api', GEToffers);
 app.use('/api', getUsers);
 app.use('/api', getMessage);
 app.use('/api', getAllMessages);
+app.use('/api', adminOrders);
 
 // ------------------patch ------------------
 app.use('/api', patchProduct);
