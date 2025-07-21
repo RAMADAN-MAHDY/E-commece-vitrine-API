@@ -71,6 +71,40 @@ router.get('/user/orders', authMiddleware, async (req, res) => {
   }
 });
 
+// PATCH /admin/orders/:orderId/status => update order status
+router.patch('/admin/orders/:orderId/status', authMiddleware, async (req, res) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+
+  const allowedStatuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'returned', 'failed'];
+
+
+  if (!allowedStatuses.includes(status)) {
+    return res.status(400).json({ message: 'Invalid status value' });
+  }
+
+  try {
+    const updatedOrder = await OrderModel.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    )
+    .populate('products.productId', 'title image price')
+    .lean();
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.json({
+      message: 'Order status updated successfully',
+      order: updatedOrder.status
+    });
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    res.status(500).json({ message: 'Server error while updating order status' });
+  }
+});
 
 
 

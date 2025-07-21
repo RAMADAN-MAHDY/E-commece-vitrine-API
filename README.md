@@ -780,7 +780,68 @@ const res = await fetch('/api/user/orders', {
 });
 const data = await res.json();
 console.log(data);
-``` 
+```  
+## 🔄 تحديث حالة الطلب (محمي)
+
+`PATCH /api/admin/orders/:orderId/status`
+
+### الوصف:
+- هذا المسار يسمح للمسؤول بتحديث حالة طلب معين باستخدام معرف الطلب.
+- يجب إرسال توكن JWT في الهيدر للمصادقة.
+
+### الرؤوس (Headers):
+```
+Authorization: Bearer <access_token>
+Content-Type: application/json
+```
+
+### المعاملات:
+- `orderId` في مسار URL: معرف الطلب الذي سيتم تحديث حالته.
+
+### جسم الطلب (Body) - JSON:
+```json
+{
+  "status": "new_status_value"
+}
+```
+- `status` يجب أن يكون واحدًا من القيم التالية:
+  - `pending`
+  - `confirmed`
+  - `processing`
+  - `shipped`
+  - `delivered`
+  - `cancelled`
+  - `returned`
+  - `failed`
+
+### الاستجابة الناجحة:
+```json
+{
+  "message": "Order status updated successfully",
+  "order": "updated_status_value"
+}
+```
+
+### الأخطاء المحتملة:
+- 400: إذا كانت قيمة الحالة غير صالحة.
+- 404: إذا لم يتم العثور على الطلب.
+- 500: خطأ في السيرفر أثناء تحديث حالة الطلب.
+
+---
+
+### مثال عملي (Fetch) لتحديث حالة الطلب:
+```js
+const res = await fetch('/api/admin/orders/معرف_الطلب/status', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer <access_token>',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ status: 'shipped' })
+});
+const data = await res.json();
+console.log(data);
+```  
 ---
 
 لأي استفسار عن أي Endpoint أو إضافة توثيق لمسارات أخرى، تواصل مع فريق الباكند.

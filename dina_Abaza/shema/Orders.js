@@ -28,11 +28,12 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  status: {
-    type: String,
-    enum: ['pending', 'paid', 'cancelled', 'failed'],
-    default: 'pending'
-  },
+ status: {
+  type: String,
+  enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'returned', 'failed'],
+  default: 'pending'
+}
+,
   paymentIntentId: { // ممكن تخزن معاه paymentIntent أو sessionId لو حبيت
     type: String
   },
