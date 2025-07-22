@@ -59,7 +59,7 @@ router.get('/user/orders', authMiddleware, async (req, res) => {
     const userName = req.user.name;
     const userEmail = req.user.email;
 
-    const orders = await OrderModel.find({ user: userId }); // أو حسب اسم الحقل عندك
+    const orders = await OrderModel.find({ userId }); // أو حسب اسم الحقل عندك
 
     res.json({
         userEmail,
