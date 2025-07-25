@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import Dotenv from 'dotenv';
 // import cookieParser from 'cookie-parser';
 import middleware from '../../middleware/authMiddleware.js'
+import adminMiddleware from '../../middleware/adminMiddleware.js';
 
 Dotenv.config();
 
@@ -23,7 +24,7 @@ function generateAccessToken(payload) {
 const Login = () => {
     const app = express();
     app.use(express.json());
-   // app.use(cookieParser());
+    // app.use(cookieParser());
 
     app.post('/login', async (req, res) => {
         try {
@@ -43,56 +44,53 @@ const Login = () => {
                 return res.status(401).json({ message: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.' });
             }
 
-            const payload = { id: user._id, name : user.name , email: user.email };
+            const payload = { id: user._id, name: user.name, rols : user.rols , email: user.email };
 
             const accessToken = generateAccessToken(payload);
 
+            if (user.rols === "admin") {
+                res.cookie('accessToken', accessToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'none',
+                    maxAge: 7 * 24 * 60 * 60 * 1000 // أسبوع بالمللي ثانية
+                });
+            }
             // خزّن الـ accessToken في كوكي
-     //       res.cookie('accessToken', accessToken, {
-      //          httpOnly: true,
-        //        secure: process.env.NODE_ENV === 'production',
-         //       sameSite: 'none',
-        //        maxAge: 7 * 24 * 60 * 60 * 1000 // أسبوع بالمللي ثانية
-       //     });
+
             const { password: _, ...userData } = user.toObject(); // استبعاد كلمة المرور من البيانات المرسلة
-            return res.status(200).json({ message: 'تم تسجيل الدخول بنجاح.' , accessToken , user: userData });
+
+            if (user.rols !== 'admin') {
+                return res.status(200).json({ message: 'تم تسجيل الدخول بنجاح.', accessToken, user: userData });
+            }
+
+            return res.status(200).json({ message: 'تم تسجيل الدخول كأدمن بنجاح.', user: userData });
+
         } catch (err) {
             console.error('خطأ في تسجيل الدخول:', err);
             return res.status(500).json({ message: 'حدث خطأ أثناء تسجيل الدخول.' });
         }
     });
- 
+
     // Middleware للتحقق من صحة التوكن
     app.get('/verify-login', middleware, (req, res) => {
+        res.json({ message: 'تم تسجيل الدخول بنجاح.' });
+    });
+    // admin
+    app.get('/verify-login-admin', middleware, adminMiddleware , (req, res) => {
+        res.json({ message: 'تم تسجيل الدخول كأدمن بنجاح.' });
+    });
 
-        
-    res.json({ message: 'تم تسجيل الدخول بنجاح.' });
-});
-
-
-
-
-
-
-
-
+// مسار تسجيل الخروج    
     app.post('/logout', (req, res) => {
         res.clearCookie('accessToken', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-        });
-        // res.clearCookie('refreshToken', {
-        //   httpOnly: true,
-        //   secure: process.env.NODE_ENV === 'production',
-        //   sameSite: 'strict',
-        // });
+            sameSite: 'none',
+          });
+          
         return res.status(200).json({ message: 'تم تسجيل الخروج بنجاح.' });
     });
-
-
-
-
 
 
     return app;

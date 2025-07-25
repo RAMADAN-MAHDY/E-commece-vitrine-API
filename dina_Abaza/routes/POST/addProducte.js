@@ -3,10 +3,12 @@ import Product from '../../shema/Productes.js';
 import Category from '../../shema/Category.js';
 import upload from '../../middleware/multerSetup.js';
 import uploadToImgBB from '../../utils/uploadToImgBB.js';
+import middleware from '../../middleware/authMiddleware.js'
+import adminMiddleware from '../../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
-router.post('/addproduct', upload.single('image'), async (req, res) => {
+router.post('/addproduct',middleware, adminMiddleware , upload.single('image'), async (req, res) => {
   try {
     const { name, price, discountedPrice, categoryId } = req.body;
 

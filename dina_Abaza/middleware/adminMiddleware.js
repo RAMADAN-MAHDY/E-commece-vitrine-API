@@ -3,7 +3,7 @@
 
 function adminMiddleware(req, res, next) {
   if (!req.user || req.user.rols !== 'admin') {
-    return res.status(403).json({ message: 'غير مصرح لك بالدخول (أدمن فقط)' });
+    return res.status(403).json({ message: 'غير مصرح لك بالدخول (أدمن فقط)'});
   }
   next();
 }

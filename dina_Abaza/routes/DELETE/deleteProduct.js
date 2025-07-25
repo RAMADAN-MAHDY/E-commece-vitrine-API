@@ -1,10 +1,12 @@
 import express from 'express';
 import Product from '../../shema/Productes.js';
 import deleteFromImgBB from '../../utils/deleteFromImgBB.js';
+import middleware from '../../middleware/authMiddleware.js'
+import adminMiddleware from '../../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
-router.delete('/deleteproduct/:id', async (req, res) => {
+router.delete('/deleteproduct/:id', middleware, adminMiddleware , async (req, res) => {
   try {
     const { id } = req.params;
 

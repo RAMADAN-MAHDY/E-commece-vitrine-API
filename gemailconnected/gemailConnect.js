@@ -1,12 +1,18 @@
 
 import nodemailer from 'nodemailer';
+import Dotenv from "dotenv"
+
+
+
+Dotenv.config();
+
 
 // إعداد nodemailer باستخدام حساب Gmail
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'ramadanmahdy45@gmail.com',
-      pass: 'zulqwsnqkyxhjure' // استخدم كلمة مرور التطبيقات الخاصة بك هنا
+      pass: process.env.GIMAIL_PASS // استخدم كلمة مرور التطبيقات الخاصة بك هنا
     }
   });
 

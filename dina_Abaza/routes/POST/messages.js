@@ -1,11 +1,13 @@
 // routes/messages.js
 import express from 'express';
 import Message from '../../shema/Message.js';
+import middleware from '../../middleware/authMiddleware.js'
+import adminMiddleware from '../../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
 // إرسال رسالة جديدة (من الأدمن)
-router.post('/messages', async (req, res) => {
+router.post('/messages',middleware, adminMiddleware , async (req, res) => {
   try {
     const { title, content, forUser, forAll } = req.body;
 

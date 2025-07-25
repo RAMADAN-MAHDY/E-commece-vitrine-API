@@ -24,12 +24,18 @@ router.get('/Get_messages', async (req, res) => {
 
   try {
     const filter = userId
-      ? { $or: [{ forAll: true }, { forUser: userId }] }
-      : { forAll: true };
-
+    ? { 
+        $or: [
+          { forAll: true, deletedBy: { $ne: userId } }, 
+          { forUser: userId }
+        ] 
+      }
+    : { forAll: true };
+    
     const messages = await Message.find(filter).sort({ createdAt: -1 });
-
-    res.json({ messages });
+    
+    // console.log(userId);
+    res.json({ messages});
   } catch (error) {
     console.error("Error fetching messages:", error);
     res.status(500).json({ message: 'حدث خطأ أثناء جلب الرسائل' });

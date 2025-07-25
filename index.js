@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import securityMiddleware from './dina_Abaza/middleware/srcurity.js'
+import cookieParser from 'cookie-parser';
 import connectDB from './db.js';
 import paymentRoutes from './dina_Abaza/payment/routes.js';
 import StripeRoutes from './dina_Abaza/stripe-checkout/stripe.js';
@@ -11,54 +13,27 @@ import getMessage from './dina_Abaza/routes/GET/Getmessages.js'
 import postCuntactUs from './dina_Abaza/routes/POST/Postcontact.js'
 import getAllMessages from './dina_Abaza/routes/GET/getcontact.js'
 import adminOrders from './dina_Abaza/routes/GET/adminOrders.js'
-// import Socketio from './socket_io/socket_io.js';
 import compression from 'compression';
 import sendmessage from './dina_Abaza/routes/POST/messages.js';
-// import {seedDatabase} from './dina_Abaza/routes/POST/addProduct.js'
-
-// -----------------POST----------------//
-// import PostConditions from './routers/POST/condition.js';
-
 import createUser from './dina_Abaza/routes/POST/createuser.js';
 import Login from './dina_Abaza/routes/POST/login.js';
-// import Commition from './routers/POST/commition.js';
-// import SearchByClientName from './routers/POST/SearchByClientName.js';
 import PostProducts from './dina_Abaza/routes/POST/addProducte.js';
-// import PostImage from './routers/POST/imageSlider.js';
-// import postCart from './routers/POST/cart.js';
-// -----------------DELETE-----------//
-// import DeleteOrder from './routers/DELETE/order.js';
-// import DeleteProducts from './routers/DELETE/deleteProduct.js';
-
-// -----------------PUT---------------//
-// import PUTcommitionreq from './routers/PUT/PUTcommitionreq.js';
-// import ChangeState from './routers/PUT/changeState.js';
-// import ChangeCnodition from './routers/PUT/changeCondition.js';
-// import PutProducts from './routers/PUT/changeProduct.js';
-
-// ------------------GET---------------//
-// import DetailsCondition from './routers/GET/getDetailsCondition.js';
-// import Lengthoforder from './routers/GET/lengthOfOrder.js';
-// import Commitionschmas from './routers/GET/Commitionschma.js';
-// import Users from './routers/GET/User.js';
-// import imagesSlider from './routers/GET/getImageCarsolar.js';
-// import getCart from './routers/GET/cart.js';
-// import GetProdects from './dina_Abaza/routes/GET/';
 import GEToffers from './dina_Abaza/routes/GET/offers.js';
 import getCategory from './dina_Abaza/routes/GET/getcategory.js'
 import GetProdectByCategory from './dina_Abaza/routes/GET/getProducteBYCategory.js'
 import cashOnDeliveryRouter from './dina_Abaza/stripe-checkout/cash-on-delivery.js';
-
+import deleteMessage from './dina_Abaza/routes/DELETE/deleteMessage.js';
 const app = express();
 
 const port = 5000;
-//http://localhost:3000
-//https://elmahdy.vercel.app
+app.set('trust proxy', 1); // عشان Vercel يستخدم X-Forwarded headers
+
 const corsOptions = {
   origin: "*",
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  credentials: true
 }
-
+app.use(cookieParser());
 app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
@@ -83,8 +58,9 @@ app.use(compression({
         return compression.filter(req, res);
     }
 }));
-connectDB();
-
+connectDB(); // Connect to MongoDB
+// -----------------middleware------------------/
+securityMiddleware(app); // Apply security middleware
 // -----------------ROUTES------------------//
 
 app.use(paymentRoutes);// Payment routes
@@ -116,6 +92,7 @@ app.use('/api', patchProduct);
 
 // ------------------delete ------------------
 app.use('/api', deleteProduct);
+app.use('/api', deleteMessage);
 
 // seedDatabase()
 
