@@ -983,7 +983,7 @@ const res = await fetch('/api/admin/orders/معرف_الطلب/status', {
 const data = await res.json();
 console.log(data);
 ```  
-     
+ ---    
 ### وصف API حذف رسالة (Delete Message) للفرونت إند
 
 - **المسار:** `DELETE /delete_message/:id`
