@@ -20,7 +20,7 @@ const port = 5000;
 app.set('trust proxy', 1); // عشان Vercel يستخدم X-Forwarded headers
 
 const corsOptions = {
-  origin: "*",
+  origin: "http://localhost:5173",
   optionsSuccessStatus: 200,
   credentials: true
 }
