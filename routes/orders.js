@@ -1,7 +1,7 @@
 // routes/adminOrders.js
 import express from 'express';
-import OrderModel from '../../shema/Orders.js';
-import authMiddleware from '../../middleware/authMiddleware.js'
+import OrderModel from '../shema/Orders.js';
+import authMiddleware from '../middleware/authMiddleware.js'
 const router = express.Router();
 
 // GET /admin/orders => all orders with filters, sort, and pagination

@@ -1,10 +1,10 @@
 import express from 'express';
-import User from '../../shema/createuser.js';
+import User from '../shema/createuser.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Dotenv from 'dotenv';
-import middleware from '../../middleware/authMiddleware.js'
-import adminMiddleware from '../../middleware/adminMiddleware.js';
+import middleware from '../middleware/authMiddleware.js'
+import adminMiddleware from '../middleware/adminMiddleware.js';
 
 Dotenv.config();
 
@@ -19,11 +19,9 @@ function generateAccessToken(payload) {
     return jwt.sign(payload, SECRET_KEY, { expiresIn: ACCESS_TOKEN_EXPIRY });
 }
 
-const createUser = () => {
-    const app = express();
-    app.use(express.json());
+    const router = express.Router();
 
-    app.post('/register', async (req, res) => {
+    router.post('/register', async (req, res) => {
         try {
 
             const { email, password, name } = req.body;
@@ -67,7 +65,7 @@ const createUser = () => {
 
 
     // إضافة أدمن جديد (مفتوح فقط للأدمن الحاليين)
-    app.post('/add-admin', middleware, adminMiddleware, async (req, res) => {
+    router.post('/add-admin', middleware, adminMiddleware, async (req, res) => {
         try {
             const { name, email, password } = req.body;
 
@@ -101,7 +99,7 @@ const createUser = () => {
 
 
     // تعديل صلاحية مستخدم (تحويل من admin إلى user والعكس)
-    app.put('/update-role/:id', middleware, adminMiddleware, async (req, res) => {
+    router.put('/update-role/:id', middleware, adminMiddleware, async (req, res) => {
         try {
             const { id } = req.params;
             const { newRole } = req.body;
@@ -125,11 +123,4 @@ const createUser = () => {
         }
     });
 
-
-
-
-
-    return app;
-};
-
-export default createUser;
+export default router;

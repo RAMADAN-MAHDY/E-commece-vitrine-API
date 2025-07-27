@@ -1,11 +1,11 @@
 import express from 'express';
-import User from '../../../dina_Abaza/shema/createuser.js';
+import User from '../shema/createuser.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Dotenv from 'dotenv';
-// import cookieParser from 'cookie-parser';
-import middleware from '../../middleware/authMiddleware.js'
-import adminMiddleware from '../../middleware/adminMiddleware.js';
+import middleware from '../middleware/authMiddleware.js'
+import adminMiddleware from '../middleware/adminMiddleware.js';
+// import router from './messages.js';
 
 Dotenv.config();
 
@@ -20,13 +20,9 @@ function generateAccessToken(payload) {
     return jwt.sign(payload, SECRET_KEY, { expiresIn: ACCESS_TOKEN_EXPIRY });
 }
 
+    const router = express.Router();
 
-const Login = () => {
-    const app = express();
-    app.use(express.json());
-    // app.use(cookieParser());
-
-    app.post('/login', async (req, res) => {
+    router.post('/login', async (req, res) => {
         try {
             const { email, password } = req.body;
 
@@ -73,16 +69,16 @@ const Login = () => {
     });
 
     // Middleware للتحقق من صحة التوكن
-    app.get('/verify-login', middleware, (req, res) => {
+    router.get('/verify-login', middleware, (req, res) => {
         res.json({ message: 'تم تسجيل الدخول بنجاح.' });
     });
     // admin
-    app.get('/verify-login-admin', middleware, adminMiddleware , (req, res) => {
+    router.get('/verify-login-admin', middleware, adminMiddleware , (req, res) => {
         res.json({ message: 'تم تسجيل الدخول كأدمن بنجاح.' });
     });
 
 // مسار تسجيل الخروج    
-    app.post('/logout', (req, res) => {
+    router.post('/logout', (req, res) => {
         res.clearCookie('accessToken', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -93,7 +89,4 @@ const Login = () => {
     });
 
 
-    return app;
-};
-
-export default Login;
+export default router;

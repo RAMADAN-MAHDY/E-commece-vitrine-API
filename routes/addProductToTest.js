@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import Category from '../../shema/Category.js'; // تأكد من المسار الصحيح
-import Product from '../../shema/Productes.js'; // تأكد من المسار الصحيح
+import Category from '../shema/Category.js'; // تأكد من المسار الصحيح
+import Product from '../shema/Productes.js'; // تأكد من المسار الصحيح
 
 // بيانات الفئات
 const categories = [

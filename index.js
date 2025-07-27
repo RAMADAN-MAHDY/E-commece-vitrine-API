@@ -1,30 +1,21 @@
 import express from 'express';
 import cors from 'cors';
-import securityMiddleware from './dina_Abaza/middleware/srcurity.js'
-import cookieParser from 'cookie-parser';
-import connectDB from './db.js';
-import paymentRoutes from './dina_Abaza/payment/routes.js';
-import StripeRoutes from './dina_Abaza/stripe-checkout/stripe.js';
-import webhookRoute from './dina_Abaza/stripe-checkout/stripeWebhook.js';
-import patchProduct from './dina_Abaza/routes/PUT/editProduct.js';
-import deleteProduct from './dina_Abaza/routes/DELETE/deleteProduct.js';
-import getUsers from "./dina_Abaza/routes/GET/getUsers.js"
-import getMessage from './dina_Abaza/routes/GET/Getmessages.js'
-import postCuntactUs from './dina_Abaza/routes/POST/Postcontact.js'
-import getAllMessages from './dina_Abaza/routes/GET/getcontact.js'
-import adminOrders from './dina_Abaza/routes/GET/adminOrders.js'
-import compression from 'compression';
-import sendmessage from './dina_Abaza/routes/POST/messages.js';
-import createUser from './dina_Abaza/routes/POST/createuser.js';
-import Login from './dina_Abaza/routes/POST/login.js';
-import PostProducts from './dina_Abaza/routes/POST/addProducte.js';
-import GEToffers from './dina_Abaza/routes/GET/offers.js';
-import getCategory from './dina_Abaza/routes/GET/getcategory.js'
-import GetProdectByCategory from './dina_Abaza/routes/GET/getProducteBYCategory.js'
-import cashOnDeliveryRouter from './dina_Abaza/stripe-checkout/cash-on-delivery.js';
-import deleteMessage from './dina_Abaza/routes/DELETE/deleteMessage.js';
-const app = express();
-
+import cookieParser from 'cookie-parser'; // Import the cookie-parser middleware
+import compression from 'compression'; // Import the compression middleware
+import connectDB from './db.js'; // Import the database connection function
+import securityMiddleware from './middleware/srcurity.js' // Import the security middleware
+import paymentRoutes from './payment/routes.js'; // Import the payment routes and controller
+import StripeRoutes from './stripe-checkout/stripe.js'; // Import the payment routes  and controller
+import webhookRoute from './stripe-checkout/stripeWebhook.js';  // import webhookRoute  routes and controller
+import cashOnDeliveryRouter from './stripe-checkout/cash-on-delivery.js';   // import cashOnDeliveryRouter Routes and controller
+import getUsers from "./routes/getUsers.js"  // import the getUsers Routes and controller
+import CuntactUs from './routes/contact.js'  // import contactUs Routes and controller
+import adminOrders from './routes/orders.js' // import adminOrders Routes and controller
+import messages from './routes/messages.js';  // import messages Routes and controller
+import createUser from './routes/createuser.js';     // import createUser Routes and controller
+import Login from './routes/login.js';   // import Login Routes and controller
+import Products from './routes/Productes.js';  // import Products Routes and controller
+const app = express()
 const port = 5000;
 app.set('trust proxy', 1); // عشان Vercel يستخدم X-Forwarded headers
 
@@ -59,41 +50,29 @@ app.use(compression({
     }
 }));
 connectDB(); // Connect to MongoDB
+
+
+// Socketio();
+
 // -----------------middleware------------------/
 securityMiddleware(app); // Apply security middleware
-// -----------------ROUTES------------------//
 
+// -----------------ROUTES------------------//
 app.use(paymentRoutes);// Payment routes
 app.use('/api/stripe' ,StripeRoutes);// Payment routes
 app.use('/api', cashOnDeliveryRouter);// Payment routes
 
-// Socketio();
-// ---------------------POST--------------------------//
-//login 
-app.use('/api', Login());
-app.use('/api', sendmessage);
-app.use('/api', postCuntactUs);
+app.use('/api', Login);
+app.use('/api', messages);
+app.use('/api', CuntactUs);
+app.use('/api', Products);
 
 //create an account 
-app.use("/api", createUser());
-
-app.use('/api', PostProducts);
-// -----------------GET------------------------------//
-app.use('/api', getCategory);
-app.use('/api', GetProdectByCategory);
-app.use('/api', GEToffers);
+app.use("/api", createUser);
 app.use('/api', getUsers);
-app.use('/api', getMessage);
-app.use('/api', getAllMessages);
 app.use('/api', adminOrders);
 
-// ------------------patch ------------------
-app.use('/api', patchProduct);
-
-// ------------------delete ------------------
-app.use('/api', deleteProduct);
-app.use('/api', deleteMessage);
-
+ 
 // seedDatabase()
 
 app.get('/', (req, res) => {

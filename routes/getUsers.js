@@ -1,6 +1,6 @@
 import express from 'express';
 
-import users from '../../shema/createuser.js';
+import users from '../shema/createuser.js';
 
 
 const router = express.Router();
