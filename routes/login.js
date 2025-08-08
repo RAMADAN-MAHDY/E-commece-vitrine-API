@@ -48,6 +48,7 @@ function generateAccessToken(payload) {
                 res.cookie('accessToken', accessToken, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production',
+                    domain: '.vercel.app',
                     sameSite: 'none',
                     maxAge: 7 * 24 * 60 * 60 * 1000 // أسبوع بالمللي ثانية
                 });
@@ -74,7 +75,7 @@ function generateAccessToken(payload) {
     });
     // admin
     router.get('/verify-login-admin', middleware, adminMiddleware , (req, res) => {
-        res.json({ message: 'تم تسجيل الدخول كأدمن بنجاح.' });
+        res.json({ message:'تم تسجيل الدخول كأدمن بنجاح.'});
     });
 
 // مسار تسجيل الخروج    
