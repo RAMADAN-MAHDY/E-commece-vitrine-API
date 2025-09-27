@@ -20,7 +20,7 @@ const port = 5000;
 app.set('trust proxy', 1); // عشان Vercel يستخدم X-Forwarded headers
 
 const corsOptions = {
-  origin: [ "https://e-commece-vitrine-jm7x.vercel.app" , "https://e-commece-vitrine-opal.vercel.app" , "https://e-commece-vitrine.vercel.app"],
+  origin: [ "https://e-commece-vitrine-jm7x.vercel.app" , "https://e-commece-vitrine-opal.vercel.app" , "https://e-commece-vitrine.vercel.app" , "http://localhost:5173"],
   optionsSuccessStatus: 200,
   credentials: true
 }
