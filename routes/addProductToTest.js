@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import Category from '../shema/Category.js'; // تأكد من المسار الصحيح
 import Product from '../shema/Productes.js'; // تأكد من المسار الصحيح
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 // بيانات الفئات
 const categories = [

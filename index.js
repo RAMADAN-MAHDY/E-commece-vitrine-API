@@ -28,6 +28,17 @@ const corsOptions = {
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
+// Middleware to ensure DB connection
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        console.error('Database connection error:', error);
+        res.status(500).json({ message: 'Database connection error' });
+    }
+});
+
 app.use((req, res, next) => {
     const contentLength = parseInt(req.get('content-length'), 10);
     console.log(`حجم البيانات: ${contentLength} bytes`);
@@ -50,7 +61,7 @@ app.use(compression({
         return compression.filter(req, res);
     }
 }));
-connectDB(); // Connect to MongoDB
+// connectDB(); // Connect to MongoDB
 
 
 // Socketio();
@@ -77,7 +88,7 @@ app.use('/api', adminOrders);
 
 app.get('/', (req, res) => {
     
-    seedDatabase()
+    // seedDatabase()
     res.send('Hello World!')
 })
 
