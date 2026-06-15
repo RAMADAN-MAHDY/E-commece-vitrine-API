@@ -15,6 +15,7 @@ import messages from './routes/messages.js';  // import messages Routes and cont
 import createUser from './routes/createuser.js';     // import createUser Routes and controller
 import Login from './routes/login.js';   // import Login Routes and controller
 import Products from './routes/Productes.js';  // import Products Routes and controller
+import { seedDatabase } from './routes/addProductToTest.js';
 const app = express()
 const port = 5000;
 app.set('trust proxy', 1); // عشان Vercel يستخدم X-Forwarded headers
@@ -73,10 +74,10 @@ app.use('/api', getUsers);
 app.use('/api', adminOrders);
 
  
-// seedDatabase()
 
 app.get('/', (req, res) => {
-
+    
+    seedDatabase()
     res.send('Hello World!')
 })
 
