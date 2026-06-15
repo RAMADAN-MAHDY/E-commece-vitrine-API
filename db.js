@@ -6,19 +6,39 @@ Dotenv.config()
 
 const uri = process.env.MONGO_DB;
 
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
 const connectDB = async () => {
-  try {
-    await mongoose.connect(uri);
-
-// Uncomment the following lines if you want to drop a specific index
-
-// await mongoose.connection.collection('users').dropIndex('email_1');
-
-    console.log('MongoDB connected');
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-    process.exit(1); // Exit process with failure
+  if (cached.conn) {
+    console.log('Using existing MongoDB connection');
+    return cached.conn;
   }
+
+  if (!cached.promise) {
+    console.log('Connecting to MongoDB...');
+    const opts = {
+      bufferCommands: true, // Mongoose defaults to true, but good to be explicit
+    };
+
+    cached.promise = mongoose.connect(uri, opts).then((mongooseInstance) => {
+      console.log('MongoDB connected');
+      return mongooseInstance;
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    console.error('Error connecting to MongoDB:', e);
+    throw e;
+  }
+
+  return cached.conn;
 };
 
 export default connectDB;
